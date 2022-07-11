@@ -1,0 +1,22 @@
+FROM jenkins/jenkins:lts-jdk11
+LABEL maintainers == "Leonardo Cordero, Luis Herrera"
+USER root
+RUN apt-get update -qq && \
+    apt-get install -qqy apt-transport-https ca-certificates \
+    curl gnupg2 software-properties-common && \
+    apt-get clean
+RUN curl -fsSL https://download.docker.com/linux/debian/gpg \
+    | apt-key add -
+RUN add-apt-repository \
+    "deb [arch=amd64] https://download.docker.com/linux/debian \
+    $(lsb_release -cs) \
+    stable"
+RUN apt-get update -qq && \
+    apt-get install docker-ce  -y && \
+    apt-get install tar -y && \
+    apt-get clean
+WORKDIR /home
+RUN curl -o allure-commandline-2.18.1.tgz -Ls https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/2.18.1/allure-commandline-2.18.1.tgz
+RUN tar -zxvf allure-commandline-2.18.1.tgz -C /opt/ 
+RUN ln -s /opt/allure-2.18.1/bin/allure /usr/bin/allure  
+RUN allure --version
