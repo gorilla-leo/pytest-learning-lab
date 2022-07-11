@@ -21,7 +21,7 @@ pipeline {
         
         stage("Clone Repository"){
             steps {
-                sh "git clone https://github.com/luisherreraGL/pytest-learning-lab.git"
+                sh "git clone https://github.com/gorilla-leo/pytest-learning-lab.git"
             }
         }
 
@@ -51,10 +51,8 @@ pipeline {
      }
     post {
         always {
-            dir('pytest-learning-lab/UI-Testing'){
-                sh "rm -rf report; mkdir report"
-                sh "docker cp ${containerName}:/python-ui-testing/report/ ./report"
-            }
+            sh "rm -rf report; mkdir report"
+            sh "docker cp ${containerName}:/python-ui-testing/report/ ./report"
             echo "Cleanup"
             sh "docker stop ${containerName}"
             sh "docker rm ${containerName}"
@@ -65,7 +63,7 @@ pipeline {
                         jdk: '',
                         properties: [],
                         reportBuildPolicy: 'ALWAYS',
-                        results: [[path: 'pytest-learning-lab/UI-Testing/report']]
+                        results: [[path: '**/report']]
                 ])
             }   
         }
