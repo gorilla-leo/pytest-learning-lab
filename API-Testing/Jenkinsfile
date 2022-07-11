@@ -21,7 +21,7 @@ pipeline {
         
         stage("Clone Repository"){
             steps {
-                sh "git clone https://github.com/luisherreraGL/pytest-learning-lab.git"
+                sh "git clone https://github.com/gorilla-leo/pytest-learning-lab.git"
             }
         }
 
